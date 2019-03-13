@@ -1,7 +1,7 @@
 Sailboat - AI Modules
 ===========================
 
-Make sure you have [Python](https://www.python.org/downloads/ "Python 3.6.x") in version 3.6.x installed.
+Make sure you have [Python 3.6.x](https://www.python.org/downloads/ "Python 3.6.x") installed.
 
 ### Running the Project
 
