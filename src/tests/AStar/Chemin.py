@@ -6,15 +6,14 @@ class Node():
         self.parent = parent
         self.position = position
 
-        self.g = 0     # g eh a relacao entre a tua posicao e a posicao inicial
-        self.h = 0	   # h eh a relacao entre a tua posicao e a posicao final
-        self.f = 0	   # f eh a soma entre g e h. O movimento optara pela menor soma
+        self.g = 0     # g est la relation entre la position et la position finale
+        self.h = 0	   # h est la relation entre la position et la position initiale
+        self.f = 0	   # f est la somme entre g et h
 
     def __eq__(self, other):
         return self.position == other.position
 
 def astar(maze, start, end):
-    """Returns a list of tuples as a path from the given start to the given end in the given maze"""
 
     # Cree les nodes start et end
     node_inicial = Node(None, start)
@@ -22,14 +21,14 @@ def astar(maze, start, end):
     node_final = Node(None, end)
     node_final.g = node_final.h = node_final.f = 0
 
-    # Inicializa as listas open and closed (listas que no futuro serao empilhadas)
+    # Initialization de les listes open and closed
     open_list = []
     closed_list = []
 
-    # Adiciona o node de start
+    # Ajoute le node start
     open_list.append(node_inicial)
 
-    # Loop until you find the end
+    # Loop jusqu'a trouver le bout
     while len(open_list) > 0:
 
         # Prendre le node actuel
@@ -40,7 +39,7 @@ def astar(maze, start, end):
                 current_node = item
                 current_index = index
 
-        # Pop current off open list, add to closed list
+        # Pop le actuel off open list et ajoute à closed list
         open_list.pop(current_index)
         closed_list.append(current_node)
 
@@ -51,20 +50,20 @@ def astar(maze, start, end):
             while current is not None:
                 path.append(current.position)
                 current = current.parent
-            return path[::-1] # Return reversed path
+            return path[::-1] # ça va retourner le chemin inverse
 
-        # Generate children
+        # Gerer children
         children = []
-        for new_position in [(0, -1), (0, 1), (-1, 0), (1, 0)]: # Adjacent squares
+        for new_position in [(0, -1), (0, 1), (-1, 0), (1, 0)]: # Adjacent carrees
 		#for new_position in [(0, -1), (0, 1), (-1, 0), (1, 0), (-1, -1), (-1, 1), (1, -1), (1, 1)]: # Adjacent squares
-            # Get node position
+            # Prendre position du node
             node_position = (current_node.position[0] + new_position[0], current_node.position[1] + new_position[1])
 
-            # Make sure within range
+            # Certain que est dans le range
             if node_position[0] > (len(maze) - 1) or node_position[0] < 0 or node_position[1] > (len(maze[len(maze)-1]) -1) or node_position[1] < 0:
                 continue
 
-            # Make sure walkable terrain
+            # Certain que le chemin est possible
             if maze[node_position[0]][node_position[1]] != 0:
                 continue
 
@@ -111,9 +110,10 @@ def main():
 
     start = (5, 1)
     end = (5, 8)
-
+    print("Initial: " + str(start))
     path = astar(maze, start, end)
-    print(path)
+    print("Path: " + str(path))
+    print("Final: " + str(end))
 
 
 if __name__ == '__main__':
