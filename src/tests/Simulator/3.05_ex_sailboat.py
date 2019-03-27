@@ -27,22 +27,24 @@ def f(x,u):
     
     
 p0,p1,p2,p3,p4,p5,p6,p7,p8,p9 = 0.1,1,6000,1000,2000,1,1,2,300,10000
-x = array([[10,-40,-3,1,0]]).T   #x=(x,y,θ,v,w)
+x = array([[0,-50,1.57,1,0]]).T   #x=(x,y,θ,v,w)
 
 dt = 0.1
-awind,ψ = 2,-2  
+awind,ψ = 2,-1.57 # -2,-2  
 a = array([[-50],[-100]])   
 b = array([[50],[100]])
                   
-ax=init_figure(-100,100,-60,60)
+#ax = init_figure(-100,100,-60,60)
 
-for t in arange(0,20,0.1):
+for t in arange(0,10,0.1):
     clear(ax)
-    plot([a[0,0],b[0,0]],[a[1,0],b[1,0]],'red')
-    u=array([[0],[1]])
+    #plot([a[0,0],b[0,0]],[a[1,0],b[1,0]],'red')
+    # u speed array has 2 angles between -pi and pi to control rudder and sail
+    # u = array ([[angle_ruder],[angle_sail]])
+    u=array([[-0.5],[1]])
     xdot,δs=f(x,u)
     x = x + dt*xdot
-    draw_sailboat(x,δs,u[0,0],ψ,awind)
+    #draw_sailboat(x,δs,u[0,0],ψ,awind)
 
 
         
