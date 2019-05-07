@@ -54,8 +54,7 @@ def astar(maze, start, end):
 
         # Gerer children
         children = []
-        for new_position in [(0, -1), (0, 1), (-1, 0), (1, 0)]: # Adjacent carrees
-		#for new_position in [(0, -1), (0, 1), (-1, 0), (1, 0), (-1, -1), (-1, 1), (1, -1), (1, 1)]: # Adjacent squares
+        for new_position in [(0, -1), (0, 1), (-1, 0), (1, 0), (-1, -1), (-1, 1), (1, -1), (1, 1)]: # Adjacent squares
             # Prendre position du node
             node_position = (current_node.position[0] + new_position[0], current_node.position[1] + new_position[1])
 
@@ -102,12 +101,13 @@ def heuristic(node_final, child, current_node):
     #  cost of the cheapest path from n to the goal
     if (child.position[0] > current_node.position[0] or child.position[0] < current_node.position[0]) and child.position[1] > current_node.position[1]:  
         h = ((child.position[0] - node_final.position[0]) ** 2) + ((child.position[1] - node_final.position[1]) ** 2)
+        return h
+    elif child.position[0] == current_node.position[0] and child.position[1] > current_node.position[1]:
+        return 1000
     elif child.position[1] == current_node.position[1]:
-        h = 10
+        return 1000
     else:
-        h = 10
-    return h
-
+        return 1000
 
 def main():
 			#0  X1 2  3  4  5  6  7  X2 9
@@ -123,7 +123,7 @@ def main():
             [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]   #9
 
     start = (5, 1)
-    end = (5, 8)
+    end = (5, 9)
     print("Initial: " + str(start))
     path = astar(maze, start, end)
     print("Path: " + str(path))
@@ -131,4 +131,4 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    main()              
