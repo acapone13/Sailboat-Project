@@ -20,11 +20,9 @@ def heuristic(a,b):
     (x1, y1) = a
     (x2, y2) = b
 
-    if (x1 > x2 and y1 > y2) or (x1 < x2 and y1 > y2):
+    if ((x1 - x2) > 0 and y1 > y2) or ((x1 + x2) < 5 and y1 > y2):
         h =  abs(x2 - x1) + abs(y2 - y1)
         return h
-    #if (x1 > x2 and y1 <= y2) or (x1 < x2 and y1 <= y2):
-        #return -1
     else:
         return -1
 
