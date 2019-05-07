@@ -1,1 +1,0 @@
-from gym_simulator.envs.sailboatSimulation_env import SailboatSimulatorEnv
