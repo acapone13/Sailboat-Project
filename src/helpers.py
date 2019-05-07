@@ -4,3 +4,4 @@ import os, sys, inspect
 sys.path.append("models")
 sys.path.append("modules")
 sys.path.append("tests")
+sys.path.apend("simulator")
