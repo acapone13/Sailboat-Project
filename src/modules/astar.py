@@ -2,7 +2,7 @@ from AI import IAI
 
 class Astar(IAI):
     """
-    Module used to implement astar based on IAI interface
+    Module used to implement astar from AI interface
     """
 
     def step(self, params):
