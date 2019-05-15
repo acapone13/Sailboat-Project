@@ -2,7 +2,7 @@ import helpers
 from AI import IAI
 
 class Bot(IAI):
-    def step(self, wind, u, pos, target):
+    def step(self, params):
         raise NotImplementedError
     def log(self, message):
         print(message)
