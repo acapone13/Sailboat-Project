@@ -36,34 +36,6 @@ class polarPlot:
 
         return interSpeed
 
-if __name__ == '__main__': 
-    pp = polarPlot()
-    print(pp.interpolate(7.5,40))
-    print()
-    print(pp.speed_values)
-    #print(pp.wind_speed)
-    print()
-    print(pp.theta_grad)
 
-"""#print(speed_values)
-#print(theta_grad)
-#print(real_theta[0])
-
-# Use machine learning to Interpolate angle values in middle. Polynomial Interpolation
-#speed_interPts = speed_values
-#thetha_interPts = real_theta
-#f = np.poly1d(np.polyfit(thetha_interPts,speed_interPts,5))
-
-
-ax = plt.subplot(111, projection='polar')
-ax.plot(real_theta,speed_values)
-#ax.plot(thetha_interPts, f(thetha_interPts))
-ax.set_rmax(10)
-#r = np.arange(2,10,2)
-#ax.set_rticks(r)
-#ax.set_rlabel_position(-22.5)
-ax.grid(True)
-
-plt.show()"""
 
 

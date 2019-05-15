@@ -1,4 +1,5 @@
 import numpy as np
+from polarplot import *
 
 class Node():
     #addapté pour notre projet: l'algo trouve le chemin le plus vite pour arriver à la destination
@@ -116,6 +117,11 @@ def main():
     path = astar(maze, start, end)
     print("Path: " + str(path))
     print("Final: " + str(end))
+    
+    #speedCalculation
+    #pp = polarPlot()
+    #print()
+    #print(pp.interpolate(7.5,50))
 
 
 if __name__ == '__main__':
