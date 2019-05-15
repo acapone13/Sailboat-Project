@@ -13,14 +13,19 @@ class Node():
         self.h = 0	   # h est la relation la moins cher entre la position et la position finale
         self.f = 0	   # f est la somme entre g et h
 
+        self.pp = polarPlot()   # Appel a la fonction pour interpoler les valeurs de vitesse avec angle et force du vent
+
+        self.u = [0,0] # Sail angle and Rudder angle of the boat
+
     def __eq__(self, other):
         return self.position == other.position
 
-def astar(maze, start, end):
+def astar(maze, start, end, u, wind):
 
     # Cree les nodes start et end
     node_initial = Node(None, start)
     node_initial.g = node_initial.h = node_initial.f = 0
+    node_initial.u = [u[0], u[1]]
     node_final = Node(None, end)
     node_final.g = node_final.h = node_final.f = 0
 
@@ -85,7 +90,7 @@ def astar(maze, start, end):
 
             #Cree les f, g, and h valeurs
             child.g = cost_of_path(current_node)
-            child.h = heuristic(child, node_final, current_node)
+            child.h = heuristic(child, node_final, wind)
             child.f = child.g + child.h
 
             # Child est déjà dans l'open list
@@ -100,12 +105,38 @@ def cost_of_path(current_node):
     # cost of the path from the start node to n
     return current_node.g + 1
 
-def heuristic(node_final, child, current_node):
+def heuristic(node_final, child, wind):
     #  cost of the cheapest path from n to the goal  
-    h = (((child.position[0] - node_final.position[0]) ** 2) ** 0.5)  + (((child.position[1] - node_final.position[1]) ** 2) ** 0.5)
-    return h
+    #h = (((child.position[0] - node_final.position[0]) ** 2) ** 0.5)  + (((child.position[1] - node_final.position[1]) ** 2) ** 0.5)
 
-    # Add real heuristic function
+    TWS = wind[0]
+    TWA = abs(wind[1] - child.u[0])
+    child.pp.interpolate(TWS, TWA)
+    boat_speed = child.pp.getBoatSpeed()
+    boat_angle = child.pp.getBoatAngle()
+
+    print(child.u[0])
+
+    if TWA < 30:
+        h = 1000
+        child.u[0] = boat_angle
+    elif TWA >= 30 and TWA < 60:
+        h = boat_speed
+        child.u[0] = boat_angle
+    elif TWA >= 60 and TWA < 90:
+        h = boat_speed
+        child.u[0] = boat_angle
+    elif TWA >= 90 and TWA < 120:
+        h = boat_speed
+        child.u[0] = boat_angle
+    elif TWA >= 120 and TWA < 150:
+        h = boat_speed
+        child.u[0] = boat_angle
+    else:
+        h = boat_speed
+        child.u[0] = boat_angle
+
+    return h
     
 
 def main():
@@ -113,15 +144,17 @@ def main():
     
     start = (5, 1)
     end = (5, 8)
+    wind = (8,0)
+    u = (10,0)
     print("Initial: " + str(start))
-    path = astar(maze, start, end)
+    path = astar(maze, start, end, u, wind)
     print("Path: " + str(path))
     print("Final: " + str(end))
     
     #speedCalculation
     #pp = polarPlot()
     #print()
-    #print(pp.interpolate(7.5,50))
+    #print(pp.interpolate(17,10))
 
 
 if __name__ == '__main__':
