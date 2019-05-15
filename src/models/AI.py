@@ -6,16 +6,13 @@ class IAI(abc.ABC):
     """
 
     @abc.abstractmethod
-    def step(self, wind, u, pos, target):
+    def step(self, params):
         """ Next logic step
 
         Parameters:
-            wind (numpy): Wind Force (awind) and angle (ψ) -> [awind, ψ]
-            u (numpy): Sail angle (Qv) and Rudder angle (Qd) -> [Qv, Qd]
-            pos (numpy): Actual position -> [x, y]
-            target (numpy): Target position -> [x, y]
+            params (dict): Dictionary of parameters
         Returns:
-            u_new (numpy): New rudder angle -> [Qv, Qd]
+            u (numpy): New rudder angle [Qv, Qd]
         """
         pass
     
