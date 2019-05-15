@@ -101,7 +101,7 @@ def cost_of_path(current_node):
 
 def heuristic(node_final, child, current_node):
     #  cost of the cheapest path from n to the goal  
-    h = ((child.position[0] - node_final.position[0]) ** 2) + ((child.position[1] - node_final.position[1]) ** 2)
+    h = (((child.position[0] - node_final.position[0]) ** 2) ** 0.5)  + (((child.position[1] - node_final.position[1]) ** 2) ** 0.5)
     return h
 
     # Add real heuristic function
@@ -111,7 +111,7 @@ def main():
     maze = np.zeros(shape=(200,120))     
     
     start = (5, 1)
-    end = (100, 50)
+    end = (5, 8)
     print("Initial: " + str(start))
     path = astar(maze, start, end)
     print("Path: " + str(path))
