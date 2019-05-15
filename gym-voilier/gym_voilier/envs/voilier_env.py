@@ -63,7 +63,7 @@ class VoilierEnv(gym.Env):
         if self.params['ψ'] < -pi:
             self.params['ψ'] = pi
 
-        self.u = array([action*pi])
+        self.u = array([action*pi/2.0])
 
         self.x, self.δs = gym_voilier.envs.sim.step(self.x, self.u, self.dt, self.params)
 
