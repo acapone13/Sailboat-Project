@@ -90,8 +90,6 @@ class VoilierEnv(gym.Env):
         self.wind = array([[self.params['awind']/self.max_wind, self.limitAngle(self.params['ψ']-boatDir)/pi, self.u[0,0]/(pi/2), self.limitAngle(self.δs)/(pi/2)]], dtype=np.float32)
         state = np.concatenate((self.to_target, self.wind), axis = None)
 
-        print(state)
-
         done = (status == 'win' or status == 'lose')
 
         ###### observations, reward, finished, info
