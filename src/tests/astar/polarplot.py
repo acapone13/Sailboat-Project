@@ -15,29 +15,24 @@ class polarPlot:
         self.boat_speed = 0
         self.boat_angle = 0
 
-    def interpolate(self,speed,theta):
-        downAngle = max([s for s in self.theta_grad if theta >= s])
-        upAngle = min([s for s in self.theta_grad if theta <= s])
+    def interpolate(self,speed, angle):
         downSpeed = max([s for s in self.wind_speed if speed >= s])
         upSpeed = min([s for s in self.wind_speed if speed <= s])
-        
-        for i in range(len(self.theta_grad)):
-            if self.theta_grad[i] == downAngle:
-                indexA1 = i
-            if self.theta_grad[i] == upAngle:
-                indexA2 = i
+        downAngle = max([s for s in self.theta_grad if angle >= s])
+        upAngle = min([s for s in self.theta_grad if angle <= s])
 
         for i in range(len(self.wind_speed)):
             if self.wind_speed[i] == downSpeed:
                 indexS1 = i 
             if self.wind_speed[i] == upSpeed:
                 indexS2 = i
+        for i in range(len(self.theta_grad)):
+            if self.theta_grad[i] == downAngle:
+                indexA1 = i
+            if self.theta_grad[i] == upAngle:
+                indexA2 = i
 
         self.boat_speed = (self.speed_values[indexA1,indexS1]/(abs(self.speed_values[indexA1,indexS1] - speed)) + self.speed_values[indexA2,indexS2]/(abs(self.speed_values[indexA2,indexS2] - speed)))/((1/abs(self.speed_values[indexA1,indexS1] - speed)) + (1/abs(self.speed_values[indexA2,indexS2] - speed)))
-        self.boat_angle = (self.theta_grad[indexA1]/(abs(self.theta_grad[indexA1] - theta)) + self.theta_grad[indexA2]/(abs(self.theta_grad[indexA2] - theta)))/((1/abs(self.theta_grad[indexA1] - theta)) + (1/abs(self.theta_grad[indexA2] - theta)))
-
-
-        # Modificate boat_angle
 
     def getBoatSpeed(self):
         return self.boat_speed
@@ -45,9 +40,24 @@ class polarPlot:
     def getBoatAngle(self):
         return self.boat_angle
 
-    #def getMaxTWA(self, theta:
-        #do NOthing
+    def getTWA(self, speed, minTheta, maxTheta):
+        downAngle = max([s for s in self.theta_grad if abs(minTheta) >= s])
+        upAngle = min([s for s in self.theta_grad if abs(maxTheta) < s])
+        #theta = self.getMaxTWA(speed, downAngle, upAngle)
+        theta = (upAngle + downAngle)/2
         
+        for i in range(len(self.theta_grad)):
+            if self.theta_grad[i] == downAngle:
+                indexA1 = i
+            if self.theta_grad[i] == upAngle:
+                indexA2 = i
+        
+        if (abs(self.theta_grad[indexA1] - theta) != 0 or abs(self.theta_grad[indexA2] - theta) != 0):
+            self.boat_angle = (self.theta_grad[indexA1]/(abs(self.theta_grad[indexA1] - theta)) + self.theta_grad[indexA2]/(abs(self.theta_grad[indexA2] - theta)))/((1/abs(self.theta_grad[indexA1] - theta)) + (1/abs(self.theta_grad[indexA2] - theta)))
+        else:
+            self.boat_angle = self.getMaxTWA(speed, theta)
+
+        self.interpolate(speed,self.boat_angle)        
 
 if __name__ == '__main__':
     pp = polarPlot()
