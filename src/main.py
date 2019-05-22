@@ -1,4 +1,4 @@
-import helpers, argparse
+import helpers, argparse, gym, gym_voilier
 from astar import Astar
 from rl import Rl
 
@@ -21,14 +21,21 @@ def valid_args(args):
         exit()
 
 def main(args):
+    
+    # Astar module
     if args.astar:
-        # Astar module
-        astar = Astar()
-        astar.log("Astar module initialized")
+        model = Astar()
+    # Reinforcement learning module
     elif args.rl:
-        # Reinforcement learning module
-        rl = Rl()
-        rl.log("Rl module initialized")
+        model = Rl()
+
+    # Create an environment
+    env = gym.make('voilier-v2').unwrapped
+    state = env.reset()
+    # TODO Get range by from argument
+    for step in range(0,20,0.1):
+        state = model.step(state)
+        env.render()
 
 if __name__ == "__main__":
     valid_args(args)
