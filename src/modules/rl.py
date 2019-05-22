@@ -1,8 +1,8 @@
 from AI import IAI
 
-class Pytorch(IAI):
+class Rl(IAI):
     """
-    Module used to implement pytorch based on IAI interface
+    Module used to implement reinforcement learning from AI interface
     """
 
     def step(self, params):

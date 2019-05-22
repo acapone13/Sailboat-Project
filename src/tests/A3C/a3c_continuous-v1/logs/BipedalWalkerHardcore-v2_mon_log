@@ -1,0 +1,13 @@
+2019-05-15 10:08:36,799 : env: BipedalWalkerHardcore-v2
+2019-05-15 10:08:36,799 : num_episodes: 100
+2019-05-15 10:08:36,799 : load_model_dir: trained_models/
+2019-05-15 10:08:36,799 : log_dir: logs/
+2019-05-15 10:08:36,799 : render: False
+2019-05-15 10:08:36,799 : render_freq: 1
+2019-05-15 10:08:36,799 : max_episode_length: 100000
+2019-05-15 10:08:36,799 : model: CONV
+2019-05-15 10:08:36,799 : stack_frames: 4
+2019-05-15 10:08:36,799 : new_gym_eval: True
+2019-05-15 10:08:36,799 : seed: 1
+2019-05-15 10:08:36,799 : gpu_id: -1
+2019-05-15 10:08:54,037 : Episode_length, 754, reward_sum, 322.37559123396875, reward_mean, 322.3756

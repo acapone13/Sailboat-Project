@@ -1,0 +1,37 @@
+2019-05-17 13:59:21,387 : lr: 0.0001
+2019-05-17 13:59:21,387 : gamma: 0.99
+2019-05-17 13:59:21,387 : tau: 1.0
+2019-05-17 13:59:21,387 : seed: 1
+2019-05-17 13:59:21,387 : workers: 6
+2019-05-17 13:59:21,387 : num_steps: 20
+2019-05-17 13:59:21,387 : max_episode_length: 500
+2019-05-17 13:59:21,388 : env: voilier-v1
+2019-05-17 13:59:21,388 : shared_optimizer: True
+2019-05-17 13:59:21,388 : load: False
+2019-05-17 13:59:21,388 : save_max: True
+2019-05-17 13:59:21,388 : optimizer: Adam
+2019-05-17 13:59:21,388 : load_model_dir: trained_models/
+2019-05-17 13:59:21,388 : save_model_dir: trained_models/
+2019-05-17 13:59:21,388 : log_dir: logs/
+2019-05-17 13:59:21,388 : model: MLP
+2019-05-17 13:59:21,388 : stack_frames: 4
+2019-05-17 13:59:21,388 : gpu_ids: [0]
+2019-05-17 13:59:21,388 : amsgrad: True
+2019-05-17 13:59:28,108 : Time 00h 00m 04s, episode reward -306.7982711082271, episode length 434, reward mean -306.7983
+2019-05-17 14:00:29,513 : Time 00h 01m 06s, episode reward -189.9681994633091, episode length 500, reward mean -248.3832
+2019-05-17 14:01:30,940 : Time 00h 02m 07s, episode reward -175.55158036300008, episode length 500, reward mean -224.1060
+2019-05-17 14:02:32,473 : Time 00h 03m 09s, episode reward -188.09523779689385, episode length 500, reward mean -215.1033
+2019-05-17 14:03:32,913 : Time 00h 04m 09s, episode reward 85.38092991388956, episode length 138, reward mean -155.0065
+2019-05-17 14:04:34,433 : Time 00h 05m 11s, episode reward -168.35151136389797, episode length 500, reward mean -157.2306
+2019-05-17 14:05:35,367 : Time 00h 06m 12s, episode reward 71.15722106830819, episode length 285, reward mean -124.6038
+2019-05-17 14:06:36,504 : Time 00h 07m 13s, episode reward 65.62156216691986, episode length 355, reward mean -100.8256
+2019-05-17 14:07:38,043 : Time 00h 08m 14s, episode reward -165.35979543920516, episode length 500, reward mean -107.9961
+2019-05-17 14:08:39,612 : Time 00h 09m 16s, episode reward -156.09835883948364, episode length 500, reward mean -112.8063
+2019-05-17 14:09:41,208 : Time 00h 10m 17s, episode reward -149.51234776380508, episode length 500, reward mean -116.1432
+2019-05-17 14:10:42,738 : Time 00h 11m 19s, episode reward -79.04055802546686, episode length 500, reward mean -113.0513
+2019-05-17 14:11:44,423 : Time 00h 12m 21s, episode reward -73.58078332638866, episode length 500, reward mean -110.0151
+2019-05-17 14:12:46,012 : Time 00h 13m 22s, episode reward -142.53319802687116, episode length 500, reward mean -112.3379
+2019-05-17 14:13:47,422 : Time 00h 14m 24s, episode reward -150.91273351714779, episode length 500, reward mean -114.9095
+2019-05-17 14:14:48,848 : Time 00h 15m 25s, episode reward -110.09171346096328, episode length 500, reward mean -114.6084
+2019-05-17 14:15:50,270 : Time 00h 16m 26s, episode reward -168.76143691165348, episode length 500, reward mean -117.7939
+2019-05-17 14:16:51,816 : Time 00h 17m 28s, episode reward -151.79242324674, episode length 500, reward mean -119.6827
