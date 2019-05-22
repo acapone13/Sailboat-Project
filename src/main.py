@@ -33,7 +33,7 @@ def main(args):
     env = gym.make('voilier-v2').unwrapped
     state = env.reset()
     # TODO Get range by from argument
-    for step in range(0,20,0.1):
+    for step in range(0,20,1):
         state = model.step(state)
         env.render()
 
