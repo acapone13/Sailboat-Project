@@ -66,5 +66,6 @@ def record(global_ep, global_ep_r, ep_r, res_queue, name, gnet, global_record):
         name,
         "Ep:", global_ep.value,
         "| Ep_r: %.2f" % global_ep_r.value,
-        "| r: %f" % ep_r,
+        "| r: %.6f" % ep_r,
+        "| record: %.6f" % global_record.value,
     )
