@@ -1,0 +1,31 @@
+Pour la présentation:
+
+1) Contexte: PRI Méca, Problematique, Infos recues, décrire système avec l'aide de M. Delaleau
+
+2) Simmulateur: Décrire un petit peu (images, vidéo, entrées, sorties, logique). Décrire actions ( derive et pour la voile theta max)
+
+3) Interface: Relation Simmulateur et modules IA. Au debut directement avec simm, aprés on a travaillé avec gym (Diagramme comme tableau, différents couleurs
+                pour entrées et sorties, temps réels)
+              Livrable 1
+
+4) Deux approches proposés:
+
+    - IA Classique(AStar):
+
+    - Apprentisage par renforcement (Actor critic): 
+
+5) AStar: Explication de ce qu'on a fait (description de méthode, résultats(vidéo), limitations)
+            Livrable 2
+
+6) RL: Explication de ce qu'on a fait (description de méthode, résultats(vidéo), limitations)
+            Livrable 3
+
+7) Méthodes Agiles: Montre notre progrés, graphiques, tâches
+
+8) Conclusion et Future Work:  On a réussi de faire le lien entre simm (black box) et la Interface IA.
+                                Future Work: Améliorer les deux approches et eventuelement proposer des autres.
+                                On avait envissagé dans le vrai batêau mais on n'est pas arrivés, il faudrait
+                                prendre ce qui marche dans le simm et l'adapter pour la vie réel.
+
+À FAIRE POUR LA PROCHAINE SEANCE (05/06)
+** Util poour faire des Diagrammes (dia)
