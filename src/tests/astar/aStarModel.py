@@ -1,5 +1,6 @@
 import numpy as np
 from polarplot import *
+from scipy.spatial import distance
 
 class Node():
     #addapté pour notre projet: l'algo trouve le chemin le plus vite pour arriver à la destination
@@ -104,7 +105,7 @@ def astar(maze, start, end, u, wind):
         # Loop dans les children
         for child in children:
 
-            # Child est déjà dans l'open list
+            # Child est déjà dans le closed list
             for closed_child in closed_list:
                 if child == closed_child:
                     continue
@@ -196,21 +197,83 @@ def heuristic(node_final, child, u, wind):
         u[0] = boat_angle"""
     #print(h)
     return round(h,4)
-    
+
+def longPathCalcul(xMazePos, yMazePos, objective, step):
+    #print(xMazePos,yMazePos)
+    dist = np.array([10000])
+    dMin = 100
+    x = 0
+    y = 0
+    for xPos in xMazePos:
+        for yPos in yMazePos:
+            d = np.sqrt((objective[0] - xPos)**2 + (objective[1] - yPos)**2)  
+            dist = np.append(dist,d)
+            if d < dMin:
+                dMin = d
+                x = xPos
+                y = yPos
+
+    return x,y,dMin
 
 def main():
-    maze = np.zeros(shape=(20,12))     
-    
-    start = (5, 1)
-    end = (5, 9)
+    maze = np.zeros(shape=(20,12)) # Simulator size (200,120)
+    start = (5,1)  # Simulation map starting point
+    initPos = (0,5) # A* maze starting point
+    objective = (5,8) # Simulation map ending point
+    end = (0,0) # A* maze ending point (changed after)
     wind = (8,0)
     u = (0,0)
+    d = 100
+    step = 0
+    dMax = np.sqrt((20)**2 + (12)**2)
+    
+    while objective != end:
+        print("Step: " + str(step), "\n")
+        #print(objective[0] - end[0], objective[1] - end[1])
+        xMazePos = np.arange(len(maze[:,0]))
+        yMazePos = np.arange(len(maze[0,:]))
+        for i in (range(len(xMazePos))):
+            xMazePos[i] = xMazePos[i] + start[0] 
+        for j in (range(len(yMazePos))):
+            yMazePos[j] = yMazePos[j] + start[1] 
+        nextObject = longPathCalcul(xMazePos, yMazePos, objective, step)
+        d = nextObject[2]
+        end = nextObject[:2] # A* maze ending point
+        if end[0] in range(20):
+            pass
+        else:
+            end = list(end)
+            end[0] = end[0] - start[0]
+        if end[1] in range(12):
+            pass
+        else:
+            end = list(end)
+            end[1] = end[1] - start[1]
+        print(d, end)
+        if objective[0] in range(20) and objective[1] in range(12):
+            initPos = start
+        print("Initial: " + str(start))
+        path = astar(maze, initPos, end, u, wind)
+        path = np.asarray(list(path))   
+        """
+        if d < dMax:
+            pass
+        else:
+            for i in range(len(path)):
+                    path[i,0] = path[i,0] + 5
+                    path[i,1] = path[i,1] - 4
+        """
+        print("Path: " + str(path.tolist()))
+        print("Final: " + str(end), "\n")
+        start = end
+        step +=1
+    
+    """
     print("Initial: " + str(start))
     path = astar(maze, start, end, u, wind)
     print("Path: " + str(path))
     print("Final: " + str(end))
-    
-    
+    """
     #speedCalculation
     #pp = polarPlot()
     #print()
