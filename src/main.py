@@ -9,7 +9,6 @@ parser.add_argument('-v', '--version', action='version', version='%(prog)s 1.0')
 parser.add_argument("model", choices=["astar", "rl", "dummy"], help = "Model to use" )
 args = parser.parse_args()
 
-
 def main(args):
     
     # Astar Module 
@@ -25,7 +24,7 @@ def main(args):
     # Create an environment
     env = gym.make('voilier-v2').unwrapped
     state = env.reset()
-    # TODO Get range by from argument
+    # TODO Get range from argument
     for step in range(0,200,1):
         action = model.step(state)
         state, _, _, _ = env.step(action)
