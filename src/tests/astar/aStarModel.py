@@ -1,7 +1,5 @@
 import numpy as np
-import time as tm
-from polarplot import *
-from scipy.spatial import distance
+import time as ts
 
 class Node():
     #addapté pour notre projet: l'algo trouve le chemin le plus vite pour arriver à la destination
