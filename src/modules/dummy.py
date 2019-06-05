@@ -4,7 +4,7 @@ import random
 
 class Dummy(IAI):
     """
-    Module used to implement a random behaviour astar from AI interface
+    Module used to implement a random behaviour from AI interface
     """
 
     def step(self, params):

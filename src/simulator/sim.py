@@ -37,6 +37,15 @@ def f(x,u, wind):
     return xdot,δs        
 
 def step(x, u, dt, wind):
+    """
+     This function makes a step of simmulation.
+     Parameters:
+        x: Actual state of the boat
+        u: Angles for the rudder and the sail 
+    Return values:
+        x_new:  New state of the boat
+        δs:     Actual angle of the sail
+    """
     
     xdot,δs=f(x, u, wind)
     x_new = x + dt*xdot
