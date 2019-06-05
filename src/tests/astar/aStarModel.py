@@ -1,4 +1,5 @@
 import numpy as np
+import time as tm
 from polarplot import *
 from scipy.spatial import distance
 
@@ -23,7 +24,8 @@ class Node():
         return self.position == other.position
 
 def astar(maze, start, end, u, wind):
-
+    #print(start, end, u, wind)
+    #print(type(start),type(start),type(u),type(wind))
     # Cree les nodes start et end
     node_initial = Node(None, start)
     node_initial.g = node_initial.h = node_initial.f = 0
@@ -41,7 +43,7 @@ def astar(maze, start, end, u, wind):
 
     # Loop jusqu'a trouver le bout
     while len(open_list) > 0:
-
+        # tic = tm.clock()
         # Prendre le node actuel
         current_node = open_list[0]
         current_index = 0
@@ -50,10 +52,16 @@ def astar(maze, start, end, u, wind):
                 current_node = item
                 current_index = index
 
+        # toc = tm.clock()
+        # print("Time 1: ", toc - tic)
+
+        #print(len(open_list))
+
         # Pop le actuel off open list et ajoute à closed list
         open_list.pop(current_index)
         closed_list.append(current_node)
 
+        # tic = tm.clock()
         # Il a trouvé l'objectif
         if current_node == node_final:
             path = []
@@ -61,8 +69,13 @@ def astar(maze, start, end, u, wind):
             while current is not None:
                 path.append(current.position)
                 current = current.parent
+            #print(closed_list)
             return path[::-1] # ça va retourner le chemin inverse
 
+        # toc = tm.clock()
+        # print("Time 2: ", toc - tic)
+
+        # tic = tm.clock()
         # Gerer children
         children = []
         for new_position in [(0, -1), (0, 1), (-1, 0), (1, 0), (-1, -1), (-1, 1), (1, -1), (1, 1)]: # Adjacent squares
@@ -101,14 +114,22 @@ def astar(maze, start, end, u, wind):
 
             # Append les nodes
             children.append(new_node)
+        
+        # toc = tm.clock()
+        # print("Time 3: ", toc - tic)
 
+        # tic = tm.clock()
         # Loop dans les children
         for child in children:
 
             # Child est déjà dans le closed list
+            nextChild = False
             for closed_child in closed_list:
                 if child == closed_child:
-                    continue
+                    nextChild = True
+                    break
+            if nextChild:
+                continue
 
             #Cree les f, g, and h valeurs
             child.g = cost_of_path(current_node)
@@ -116,12 +137,21 @@ def astar(maze, start, end, u, wind):
             child.f = child.g + child.h
 
             # Child est déjà dans l'open list
+            nextChild = False
             for open_node in open_list:
                 if child == open_node and child.g > open_node.g:
-                    continue
+                    nextChild = True
+                    break
+            if nextChild:
+                continue
+
+            
 
             # Ajoute le child dans l'open list
             open_list.append(child)
+    
+        # toc = tm.clock()
+        # print("Time 4: ", toc - tic)
 
 def cost_of_path(current_node):
     # cost of the path from the start node to n
@@ -150,7 +180,7 @@ def heuristic(node_final, child, u, wind):
         u[0] = child.pp.getBoatAngle()
     elif child.anglePos == 2:
         child.pp.getTWA(TWS, 60, 120)
-        h = cost - child.pp.getBoatSpeed()*2
+        h = cost - child.pp.getBoatSpeed()
         u[0] = child.pp.getBoatAngle()
     elif child.anglePos == 3:
         child.pp.getTWA(TWS, 120, 150)
@@ -166,7 +196,7 @@ def heuristic(node_final, child, u, wind):
         u[0] = child.pp.getBoatAngle()
     elif child.anglePos == 6:
         child.pp.getTWA(TWS, -120, -60)
-        h = cost - child.pp.getBoatSpeed()*2
+        h = cost - child.pp.getBoatSpeed()
         u[0] = child.pp.getBoatAngle()
     elif child.anglePos == 7:
         child.pp.getTWA(TWS, -60, -30)
@@ -216,64 +246,21 @@ def longPathCalcul(xMazePos, yMazePos, objective, step):
     return x,y,dMin
 
 def main():
-    maze = np.zeros(shape=(20,12)) # Simulator size (200,120)
+    maze = np.zeros(shape=(200,120)) # Simulator size (200,120)
     start = (5,1)  # Simulation map starting point
-    initPos = (0,5) # A* maze starting point
-    objective = (5,8) # Simulation map ending point
-    end = (0,0) # A* maze ending point (changed after)
+    # initPos = (0,5) # A* maze starting point
+    # objective = (50,10) # Simulation map ending point
+    # print(type(objective))
+    end = (150,80) # A* maze ending point (changed after)
     wind = (8,0)
     u = (0,0)
-    d = 100
-    step = 0
-    dMax = np.sqrt((20)**2 + (12)**2)
     
-    while objective != end:
-        print("Step: " + str(step), "\n")
-        #print(objective[0] - end[0], objective[1] - end[1])
-        xMazePos = np.arange(len(maze[:,0]))
-        yMazePos = np.arange(len(maze[0,:]))
-        for i in (range(len(xMazePos))):
-            xMazePos[i] = xMazePos[i] + start[0] 
-        for j in (range(len(yMazePos))):
-            yMazePos[j] = yMazePos[j] + start[1] 
-        nextObject = longPathCalcul(xMazePos, yMazePos, objective, step)
-        d = nextObject[2]
-        end = nextObject[:2] # A* maze ending point
-        if end[0] in range(20):
-            pass
-        else:
-            end = list(end)
-            end[0] = end[0] - start[0]
-        if end[1] in range(12):
-            pass
-        else:
-            end = list(end)
-            end[1] = end[1] - start[1]
-        print(d, end)
-        if objective[0] in range(20) and objective[1] in range(12):
-            initPos = start
-        print("Initial: " + str(start))
-        path = astar(maze, initPos, end, u, wind)
-        path = np.asarray(list(path))   
-        """
-        if d < dMax:
-            pass
-        else:
-            for i in range(len(path)):
-                    path[i,0] = path[i,0] + 5
-                    path[i,1] = path[i,1] - 4
-        """
-        print("Path: " + str(path.tolist()))
-        print("Final: " + str(end), "\n")
-        start = end
-        step +=1
-    
-    """
     print("Initial: " + str(start))
     path = astar(maze, start, end, u, wind)
-    print("Path: " + str(path))
-    print("Final: " + str(end))
-    """
+    path = np.asarray(list(path))
+    print("Path: " + str(path.tolist()))
+    print("Final: " + str(end), "\n")
+
     #speedCalculation
     #pp = polarPlot()
     #print()
