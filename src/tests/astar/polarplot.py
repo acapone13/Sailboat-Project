@@ -55,7 +55,7 @@ class polarPlot:
         if (abs(self.theta_grad[indexA1] - theta) != 0 or abs(self.theta_grad[indexA2] - theta) != 0):
             self.boat_angle = (self.theta_grad[indexA1]/(abs(self.theta_grad[indexA1] - theta)) + self.theta_grad[indexA2]/(abs(self.theta_grad[indexA2] - theta)))/((1/abs(self.theta_grad[indexA1] - theta)) + (1/abs(self.theta_grad[indexA2] - theta)))
         else:
-            self.boat_angle = 15# self.getMaxTWA(speed, theta)
+            self.boat_angle = 0# self.getMaxTWA(speed, theta)
 
         self.interpolate(speed,self.boat_angle)        
 

@@ -24,6 +24,7 @@ def main(args):
     # Create an environment
     env = gym.make('voilier-v2').unwrapped
     state = env.reset()
+    
     # TODO Get range from argument
     for step in range(0,200,1):
         action = model.step(state)

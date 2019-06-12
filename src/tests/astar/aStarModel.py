@@ -1,5 +1,6 @@
 import numpy as np
-import time as ts
+import time as tm
+from polarplot import *
 
 class Node():
     #addapté pour notre projet: l'algo trouve le chemin le plus vite pour arriver à la destination
@@ -16,7 +17,7 @@ class Node():
 
         self.pp = polarPlot()   # Appel a la fonction pour interpoler les valeurs de vitesse avec angle et force du vent
 
-        self.u = [0,0] # Sail angle and Rudder angle of the boat
+        self.u = [] # Sail angle and Rudder angle of the boat
 
     def __eq__(self, other):
         return self.position == other.position
@@ -28,7 +29,7 @@ def astar(maze, start, end, u, wind):
     node_final = Node(None, end)
     node_final.g = node_final.h = node_final.f = 0
     uAngle = [u[0], u[1]]
-
+    
     # Initialization de les listes open and closed
     open_list = []
     closed_list = []
@@ -53,11 +54,13 @@ def astar(maze, start, end, u, wind):
         # Il a trouvé l'objectif
         if current_node == node_final:
             path = []
+            angle = []
             current = current_node
             while current is not None:
                 path.append(current.position)
+                angle.append(current.u)
                 current = current.parent
-            return path[::-1] # ça va retourner le chemin inverse
+            return angle[:-1], path[::-1] # ça va retourner le chemin inverse
 
         # Gerer children
         children = []
@@ -112,7 +115,7 @@ def astar(maze, start, end, u, wind):
 
             #Cree les f, g, and h valeurs
             child.g = cost_of_path(current_node)
-            child.h = heuristic(node_final, child, uAngle, wind)
+            child.u,child.h = heuristic(node_final, child, uAngle, wind)
             child.f = child.g + child.h
 
             # Child est déjà dans l'open list
@@ -156,7 +159,7 @@ def heuristic(node_final, child, u, wind):
     elif child.anglePos == 4:
         child.pp.getTWA(TWS, 150, -150)
         h = cost
-        u[0] = child.pp.getBoatAngle()
+        u[0] = -child.pp.getBoatAngle()
     elif child.anglePos == 5:
         child.pp.getTWA(TWS, -150, -120)
         h = cost - child.pp.getBoatSpeed()*2
@@ -164,7 +167,7 @@ def heuristic(node_final, child, u, wind):
     elif child.anglePos == 6:
         child.pp.getTWA(TWS, -120, -60)
         h = cost - child.pp.getBoatSpeed()
-        u[0] = -child.pp.getBoatAngle()
+        u[0] = child.pp.getBoatAngle()
     elif child.anglePos == 7:
         child.pp.getTWA(TWS, -60, -30)
         h = cost - child.pp.getBoatSpeed()*2
@@ -173,23 +176,27 @@ def heuristic(node_final, child, u, wind):
         h = cost
         u[0] = child.pp.getBoatAngle()
 
-    #print(h)
-    return round(h,4)
+    # print(child.anglePos," ")
+    angle = [round(u[0],2), round(u[1],2)]
+    return angle, round(h,4)
 
 def main():
     maze = np.zeros(shape=(200,120)) # Simulator size (200,120)
-    start = (5,1)  # Simulation map starting point
-    end = (100,80) # A* maze ending point (changed after)
-    wind = (12,0)
+    start = (20,10)  # Simulation map starting point
+    end = (5,80) # A* maze ending point (changed after)
+    wind = (8,0)
     u = (0,0)
     
     print("Initial: " + str(start))
     tic = tm.clock()
-    path = astar(maze, start, end, u, wind)
+    uAngle,path = astar(maze, start, end, u, wind)
     path = np.asarray(list(path))
     print("Path: " + str(path.tolist()))
-    print("Final: " + str(end))
+    print("\n")
+    #print("Final: " + str(end))
+    print("Boat Angle ", uAngle)
     toc = tm.clock()
+    print("\n")
     print("Time: ", toc - tic, "s", "\n")
 
 

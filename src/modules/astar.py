@@ -7,7 +7,9 @@ class Astar(IAI):
     Module used to implement astar from AI interface
     """
 
-    def astar(maze, start, end, u, wind):
+    maze = np.zeros(shape=(200,120)) # Simulator size (200,120)
+
+    def modelCalcul(maze, start, end, u, wind):
         # Creates the start and end node
         node_initial = Node(None, start)
         node_initial.g = node_initial.h = node_initial.f = 0
@@ -39,11 +41,13 @@ class Astar(IAI):
             # The objective was found
             if current_node == node_final:
                 path = []
+                angle = []
                 current = current_node
                 while current is not None:
                     path.append(current.position)
+                    angle.append(current.u)
                     current = current.parent
-                return path[::-1] # Returns the inverse way
+                return uAngle, path[::-1] # Returns the inverse way
 
             # Manage Children
             children = []
@@ -98,7 +102,7 @@ class Astar(IAI):
 
                 # Creates g, h and f values
                 child.g = cost_of_path(current_node)
-                child.h = heuristic(node_final, child, uAngle, wind)
+                child.u, child.h = heuristic(node_final, child, uAngle, wind)
                 child.f = child.g + child.h
 
                 # Child is already at open list
@@ -159,10 +163,17 @@ class Astar(IAI):
             u[0] = child.pp.getBoatAngle()
 
         #print(h)
-        return round(h,4)
+        angle = [round(u[0],2), round(u[1],2)]
+        return angle,round(h,4)
 
     def step(self, params):
-        raise NotImplementedError
+        start, end, u, wind, count = params
+        uAngle, path = modelCalcul(maze, start, end, u, wind)
+        boat_angle = uAngle[count]
+
+        return boat_angle
+        
+        # raise NotImplementedError
         
     def log(self, message):
         print(message)
