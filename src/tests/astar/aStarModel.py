@@ -1,6 +1,7 @@
 import numpy as np
 import time as tm
 from polarplot import *
+from roblib import *
 
 class Node():
     #addapté pour notre projet: l'algo trouve le chemin le plus vite pour arriver à la destination
@@ -29,6 +30,9 @@ def astar(maze, start, end, u, wind):
     node_final = Node(None, end)
     node_final.g = node_final.h = node_final.f = 0
     uAngle = [u[0], u[1]]
+
+    #  Figure initialization
+    ax=init_figure(0,200,0,120)
     
     # Initialization de les listes open and closed
     open_list = []
@@ -50,6 +54,9 @@ def astar(maze, start, end, u, wind):
         # Pop le actuel off open list et ajoute à closed list
         open_list.pop(current_index)
         closed_list.append(current_node)
+
+        # Simulation
+        simulation(ax, current_node.position) 
 
         # Il a trouvé l'objectif
         if current_node == node_final:
@@ -176,14 +183,25 @@ def heuristic(node_final, child, u, wind):
         h = cost
         u[0] = child.pp.getBoatAngle()
 
-    # print(child.anglePos," ")
     angle = [round(u[0],2), round(u[1],2)]
     return angle, round(h,4)
+
+def simulation(ax, position):
+    clear(ax)
+
+    position = np.array(position)
+    position.flatten()
+
+    draw_disk(position,2,ax,"blue")
+    
+    draw_disk(array([[127],[80]]),2,ax,"red")
+
+
 
 def main():
     maze = np.zeros(shape=(200,120)) # Simulator size (200,120)
     start = (20,10)  # Simulation map starting point
-    end = (5,80) # A* maze ending point (changed after)
+    end = (127,80) # A* maze ending point (changed after)
     wind = (8,0)
     u = (0,0)
     
@@ -196,8 +214,9 @@ def main():
     #print("Final: " + str(end))
     print("Boat Angle ", uAngle)
     toc = tm.clock()
+    t = toc - tic
     print("\n")
-    print("Time: ", toc - tic, "s", "\n")
+    print("Time: ", t, "s", "\n")
 
 
 if __name__ == '__main__':
