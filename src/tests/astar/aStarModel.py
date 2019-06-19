@@ -56,7 +56,7 @@ def astar(maze, start, end, u, wind):
         closed_list.append(current_node)
 
         # Simulation
-        simulation(ax, current_node.position) 
+        # simulation(ax, current_node.position, array([[pi/2], [pi/4]]), array([8, -1.57])) 
 
         # Il a trouvé l'objectif
         if current_node == node_final:
@@ -136,6 +136,8 @@ def astar(maze, start, end, u, wind):
 
             # Ajoute le child dans l'open list
             open_list.append(child)
+            # Draw child and current node
+            simulation(ax,current_node.position, child.position, open_list)
 
 def cost_of_path(current_node):
     # cost of the path from the start node to n
@@ -186,19 +188,50 @@ def heuristic(node_final, child, u, wind):
     angle = [round(u[0],2), round(u[1],2)]
     return angle, round(h,4)
 
-def simulation(ax, position):
+def simulation(ax, position, path, totalpath):#u,wind):
+    simulation.timeStep += 1
+    simulation.pathHist.append(position)
+
+    if simulation.timeStep % 10 != 1:
+        return
+
     clear(ax)
+
+    # position = list(position)
+    # path = list(path)
+
+    # position[:] = [x / 10 for x in position]
+    # path[:] = [x /10 for x in path]
 
     position = np.array(position)
     position.flatten()
+    path = np.array(path)
+    path.flatten()
+
+    # x = array([[position[0],position[1],-3,1,0]]).T
+    for i in range(len(simulation.pathHist)):
+        draw_disk(simulation.pathHist[i],0.3,ax,"green")
+        if i > 0:
+            draw_segment([[simulation.pathHist[i-1][0]], [simulation.pathHist[i-1][1]]], [[simulation.pathHist[i][0]], [simulation.pathHist[i][1]]], col='green')
+
+            # draw_arrow3D(ax, simulation.pathHist[i-1][0], simulation.pathHist[i-1][1], 0, simulation.pathHist[i][0]-simulation.pathHist[i-1][0], simulation.pathHist[i][1]-simulation.pathHist[i-1][1], 0, col='green')
 
     draw_disk(position,2,ax,"blue")
+
+    draw_disk(path,0.6,ax,"grey")
+
+    draw_arrow(10,110,-pi/2,10,"red")
+
+    # draw_sailboat(x,0,u,wind[1],wind[0])
     
-    draw_disk(array([[127],[80]]),2,ax,"red")
+    draw_disk(array([[127],[80]]),3,ax,"red")
 
 
 
 def main():
+    simulation.timeStep = 0
+    simulation.pathHist = []
+
     maze = np.zeros(shape=(200,120)) # Simulator size (200,120)
     start = (20,10)  # Simulation map starting point
     end = (127,80) # A* maze ending point (changed after)

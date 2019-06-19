@@ -153,7 +153,7 @@ def draw_auv3D(ax,x,y,z,φ,θ,ψ,col='blue',size=1):
     draw_robot3D(ax,array([[x],[y],[z]]),eulermat(φ,θ,ψ),col,size)
     
 def draw_arrow3D(ax,x,y,z,wx,wy,wz,col):  # initial point : x ; final point x+w 
-    ax.quiver(x,y,z,wx,wy,wz,color=col,lw=1,pivot='tail',length=norm([wx,wy,wz]))
+    ax.quiver(x,y,z,wx,wy,wz,color=col,lw=1,pivot='tail') #,length=norm([wx,wy,wz]))
 
 def draw_motif3D(ax,M,x,y,z,φ,θ,ψ,col,mirror=1):   #mirror=-1 in case z in directed downward
     M=eulermat(φ,θ,ψ) @ M
